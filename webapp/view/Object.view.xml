@@ -1,0 +1,139 @@
+<mvc:View
+    controllerName="au.com.bournedigital.developertest.controller.Object"
+    xmlns="sap.m"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:semantic="sap.f.semantic"
+    xmlns:layout="sap.ui.layout"
+    xmlns:footerbar="sap.ushell.ui.footerbar"
+>
+    <semantic:SemanticPage
+        id="page"
+        headerPinnable="false"
+        toggleHeaderOnTitleClick="false"
+        busy="{objectView>/busy}"
+        busyIndicatorDelay="{objectView>/delay}"
+    >
+        <semantic:titleHeading>
+            <HBox>
+                <Title text="{Customer/CompanyName}">
+                    <layoutData>
+                        <FlexItemData growFactor="1" />
+                    </layoutData>
+                </Title>
+                <ObjectStatus text="Order ID: {OrderID}">
+                    <layoutData>
+                        <FlexItemData styleClass="sapUiTinyMarginBegin" />
+                    </layoutData>
+                </ObjectStatus>
+            </HBox>
+        </semantic:titleHeading>
+
+        <semantic:headerContent>
+            <layout:Grid>
+                <layout:content>
+                    <ObjectAttribute
+                        title="Contact Name"
+                        text="{Customer/ContactName}"
+                    />
+                    <ObjectAttribute
+                        title="Contact Title"
+                        text="{Customer/ContactTitle}"
+                    />
+                </layout:content>
+                <layout:content>
+                    <ObjectAttribute
+                        title="Phone"
+                        text="{Customer/Phone}"
+                    />
+                    <ObjectAttribute
+                        title="Address"
+                        text="{Customer/Address}"
+                    />
+                </layout:content>
+                <layout:content>
+                    <ObjectAttribute
+                        title="Postal Code / City"
+                        text="{Customer/PostalCode} {Customer/City}"
+                    />
+                    <ObjectAttribute
+                        title="Country"
+                        text="{Customer/Country}"
+                    />
+                    <ObjectAttribute
+                        id="idTotal"
+                        title="Total Value"
+                    />
+                </layout:content>
+            </layout:Grid>
+        </semantic:headerContent>
+
+        <IconTabBar class="sapUiResponsiveContentPadding">
+            <items>
+                <IconTabFilter text="ORDER ITEMS">
+                    <Table
+                        id="orderItemsTable"
+                        items="{/Order_Details}"
+                    >
+                        <!-- <headerToolbar>
+                        <Toolbar>
+                            <Label text="Product Details" class="sapUiSmallMarginBegin" />
+                        </Toolbar>
+                    </headerToolbar> -->
+                        <columns>
+                            <Column>
+                                <Label text="Product ID" />
+                            </Column>
+                            <Column>
+                                <Label text="Unit Price" />
+                            </Column>
+                            <Column>
+                                <Label text="Quantity" />
+                            </Column>
+                            <Column>
+                                <Label text="Discount" />
+                            </Column>
+                        </columns>
+                        <items>
+                            <ColumnListItem>
+                                <cells>
+                                    <ObjectIdentifier title="{ProductID}" />
+                                    <Text text="{UnitPrice}" />
+                                    <Text text="{Quantity}" />
+                                    <ObjectStatus
+                                        text="{Discount}"
+                                        state="{
+                                                    path: 'Discount',
+                                                    formatter: '.formatter.discountState'
+                                                }"
+                                    />
+                                </cells>
+                            </ColumnListItem>
+                        </items>
+                    </Table>
+                </IconTabFilter>
+            </items>
+        </IconTabBar>
+
+        <semantic:sendEmailAction>
+            <semantic:SendEmailAction
+                id="shareEmail"
+                press="onShareEmailPress"
+            />
+        </semantic:sendEmailAction>
+
+        <semantic:shareInJamAction>
+            <semantic:ShareInJamAction
+                id="shareInJam"
+                visible="{FLP>/isShareInJamActive}"
+                press="onShareInJamPress"
+            />
+        </semantic:shareInJamAction>
+
+        <semantic:saveAsTileAction>
+            <footerbar:AddBookmarkButton
+                id="shareTile"
+                title="{objectView>/saveAsTileTitle}"
+            />
+        </semantic:saveAsTileAction>
+    </semantic:SemanticPage>
+</mvc:View>
